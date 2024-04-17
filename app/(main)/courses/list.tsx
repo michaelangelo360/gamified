@@ -31,9 +31,10 @@ export const List = ({courses , activeCourseId}: Props) => {
     return(
         <div className="pt-6 grid grid-cols-2 lg:grid-cols-[repeat(auto-fill,minmax(210px,1fr))]">
             {courses.map((course)=>(
+                <div key={course.id} className="p-4">
             <Card key={course.id} id ={course.id} title = {course.title} imageSrc ={course.imageSrc} onClick={onClick} disabled={pending} active = {course.id === activeCourseId}
         ></Card>
-        
+        </div>
         ))}
             
           
