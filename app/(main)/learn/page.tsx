@@ -6,20 +6,30 @@ import { title } from "process";
 import { units } from "@/db/schema";
 import { Unit } from "./unit";
 
-import { getUserProgress ,getUnits } from "@/db/queries";
+import { getUserProgress ,getUnits, getCourseProgress, getLessonPercentage } from "@/db/queries";
 import { redirect } from "next/navigation";
 const LearnPage = async() =>{
     
     const UserProgressData = getUserProgress();
+    const courseProgressData = getCourseProgress()
+    const lessonPercentageData = getLessonPercentage();
+    
+
     const unitsData = getUnits();
-    const [UserProgress,units,] = await Promise.all([
+    const [UserProgress,units, courseProgress, lessonPercentage] = await Promise.all([
         UserProgressData,
         unitsData,
+        courseProgressData,
+        lessonPercentageData,
     ]);
 
     if (!UserProgress || !UserProgress.activeCourse){
         redirect('/courses');
 
+    }
+
+    if (!courseProgress){
+        redirect("/courses");
     }
     
     return(
@@ -44,8 +54,8 @@ const LearnPage = async() =>{
                     description= {unit.description}
                     title  = {unit.title}
                     lessons = {unit.lessons}
-                    activeLesson = {undefined}
-                    activeLessonPercentage = {0}
+                    activeLesson = {courseProgress?.activeLesson}
+                    activeLessonPercentage = {lessonPercentage}
                     />
                 </div>
                ))} 

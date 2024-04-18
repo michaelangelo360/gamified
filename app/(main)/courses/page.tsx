@@ -1,8 +1,11 @@
 import { List } from "./list";
-import { getCourses ,getUserProgress} from "@/db/queries";
+import { getCourseProgress, getCourses ,getLessonPercentage,getUnits,getUserProgress} from "@/db/queries";
 const CoursesPage =async () => {
     const coursesData = await getCourses();
     const UserProgressData = await getUserProgress();
+    const courseProgressData = getCourseProgress()
+    const lessonPercentage = getLessonPercentage();
+    const unitsData = getUnits()
 
     const [courses,UserProgress,]= await Promise.all([coursesData,UserProgressData])
     return(
