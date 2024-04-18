@@ -3,10 +3,7 @@ import { getCourseProgress, getCourses ,getLessonPercentage,getUnits,getUserProg
 const CoursesPage =async () => {
     const coursesData = await getCourses();
     const UserProgressData = await getUserProgress();
-    const courseProgressData = getCourseProgress()
-    const lessonPercentage = getLessonPercentage();
-    const unitsData = getUnits()
-
+   
     const [courses,UserProgress,]= await Promise.all([coursesData,UserProgressData])
     return(
       <div className=" h-full max-w-[912px] px-3 mx-auto">

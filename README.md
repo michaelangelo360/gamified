@@ -1,3 +1,6 @@
+## Things to Do
+find svg assests to replace the prototype assest 
+
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
 ## Getting Started
