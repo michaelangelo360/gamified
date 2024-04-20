@@ -41,6 +41,31 @@ export const Footer =({
 
                         </div>
                     )} 
+
+{status==="wrong" && ( 
+                        <div className="text-rose-500 font-bold text-base lg:text-2xl flex items-center">
+                            <XCircle
+                            className="h-6 w-6 lg:h-10 lg:w-10 mr-4"
+                            />
+                            Try Again
+
+                        </div>
+                    )} 
+
+
+{status==="completed" && ( 
+                        <Button
+                        variant="default"
+                        size ={isMobile ? "sm":"lg"}
+                        onClick={()=> window.location.href=`/lesson/${lessonId}`}
+                        >
+
+                            Practice Again 
+                        </Button>
+                    )} 
+
+
+                     
                     <Button
                     disabled= {disabled}
                     className="ml-auto"
@@ -50,7 +75,7 @@ export const Footer =({
                         {status==="none" && "Check"}
                         {status ==="correct" && "Next"}
                         {status ==="wrong" && "Retry"}
-
+                        {status ==="completed" && "continue"}
 
                     </Button>
 
