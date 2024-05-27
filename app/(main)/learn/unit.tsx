@@ -47,78 +47,8 @@ export const Unit =({
                 );
             })}
         </div>
-        <UnitBanner title={title} description={description}></UnitBanner>
-        <div className="flex items-center flex-col relative">
-            {lessons.map((lesson,index)=>{
-                const isCurrent = lesson.id === activeLesson?.id;
-                const isLocked = !lesson.completed && !isCurrent;
-                return (
-                    <LessonButton
-                    key ={lesson.id}
-                    id ={lesson.id}
-                    index={index}
-                    totalCount={lessons.length-1}
-                    current ={isCurrent} 
-                    locked ={isLocked}
-                    percentage={activeLessonPercentage}
-                    />
-                );
-            })}
-        </div>
-        <UnitBanner title={title} description={description}></UnitBanner>
-        <div className="flex items-center flex-col relative">
-            {lessons.map((lesson,index)=>{
-                const isCurrent = lesson.id === activeLesson?.id;
-                const isLocked = !lesson.completed && !isCurrent;
-                return (
-                    <LessonButton
-                    key ={lesson.id}
-                    id ={lesson.id}
-                    index={index}
-                    totalCount={lessons.length-1}
-                    current ={isCurrent} 
-                    locked ={isLocked}
-                    percentage={activeLessonPercentage}
-                    />
-                );
-            })}
-        </div>
-        <UnitBanner title={title} description={description}></UnitBanner>
-        <div className="flex items-center flex-col relative">
-            {lessons.map((lesson,index)=>{
-                const isCurrent = lesson.id === activeLesson?.id;
-                const isLocked = !lesson.completed && !isCurrent;
-                return (
-                    <LessonButton
-                    key ={lesson.id}
-                    id ={lesson.id}
-                    index={index}
-                    totalCount={lessons.length-1}
-                    current ={isCurrent} 
-                    locked ={isLocked}
-                    percentage={activeLessonPercentage}
-                    />
-                );
-            })}
-        </div>
-        <UnitBanner title={title} description={description}></UnitBanner>
-        <div className="flex items-center flex-col relative">
-            {lessons.map((lesson,index)=>{
-                const isCurrent = lesson.id === activeLesson?.id;
-                const isLocked = !lesson.completed && !isCurrent;
-                return (
-                    <LessonButton
-                    key ={lesson.id}
-                    id ={lesson.id}
-                    index={index}
-                    totalCount={lessons.length-1}
-                    current ={isCurrent} 
-                    locked ={isLocked}
-                    percentage={activeLessonPercentage}
-                    />
-                );
-            })}
-        </div>
+        
+        
         </>
     );
 }
