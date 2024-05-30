@@ -7,11 +7,11 @@ import {Button} from "@/components/ui/button";
 
 type Props ={
 
-    onCheck :()=> void ;
+    onCheck : () => void ;
     status : "correct" | "wrong" | "none" |"completed";
     disabled?: boolean; 
     lessonId?: boolean ;
-};
+};  
 
 export const Footer =({
    
@@ -55,6 +55,7 @@ export const Footer =({
 
 {status==="completed" && ( 
                         <Button
+                        
                         variant="default"
                         size ={isMobile ? "sm":"lg"}
                         onClick={()=> window.location.href=`/lesson/${lessonId}`}
@@ -67,6 +68,7 @@ export const Footer =({
 
                      
                     <Button
+                    onClick={onCheck}
                     disabled= {disabled}
                     className="ml-auto"
                     size = {isMobile ? "sm": "lg" }
