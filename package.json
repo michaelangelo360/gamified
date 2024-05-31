@@ -9,6 +9,7 @@
     "lint": "next lint",
     "db:studio": "npx drizzle-kit studio",
     "db:push": "npx drizzle-kit push:pg",
+    "db:seed2": "tsx ./scripts/seed2.ts",
     "db:seed": "tsx ./scripts/seed.ts"
   },
   "dependencies": {

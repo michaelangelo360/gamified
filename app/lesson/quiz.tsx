@@ -1,12 +1,14 @@
 "use client"
 import { Challenge } from "./challenge";
 import { challengeOptions , challenges} from "@/db/schema";
+import { useAudio } from "react-use";
 import { useState, useTransition } from "react";
-
+import { toast } from "sonner";
 import { Header } from "./header";
 import { QuestionBubble } from "./question-bubble";
  import { Footer } from "./footer";
 import { upsertChallengeProgress } from "@/actions/challenge_progress";
+import { reduceHearts } from "@/actions/user-progress";
 type Props ={
 
 
@@ -28,6 +30,23 @@ type Props ={
     initialLessonChallenges,
     userSubscription
  } :Props)=>{
+
+   const [
+      correctAudio,
+      _c,
+      correctControls,
+
+
+   ]=useAudio({src:"/correct.wav"});
+
+
+   const [
+      incorrectAudio,
+      _i,
+      incorrectControls,
+
+
+   ]=useAudio({src:"/incorrect.wav"});
 
    const [pending,startTransition ] = useTransition();
     const [hearts, setHearts]= useState(initialHearts);
@@ -90,16 +109,35 @@ type Props ={
             return;
          }
 
+         correctControls.play()
          setStatus("correct");
          setPercentage((prev) => prev+100 /challenges.length);
 
          if( initialPercentage===100){
-            setHearts((prev)=>Math.min(prev+1, 5))
+            setHearts((prev)=>Math.min(prev+1, 5 ))
          }
       })
     })
     }else {
-    console.error("Incorrect option!");
+    startTransition(()=>{
+      reduceHearts(challenge.id)
+      .then ((response)=>{
+         if (response?.error ==="hearts"){
+            console.error("Missing hearts ");
+            return ;
+         }
+
+
+         incorrectControls.play()
+         setStatus("wrong");
+
+         if (!response?.error){
+
+            setHearts((prev)=>Math.max(prev-1,0));
+         }
+      })
+      .catch(()=> toast.error("something went wrong . Please try again"))
+    })
     }
 
     };
@@ -111,6 +149,9 @@ type Props ={
     
     return(
         <>
+
+        {incorrectAudio}
+        {correctAudio}
         <Header
 
         hearts = {hearts}
@@ -136,7 +177,7 @@ type Props ={
                 onSelect ={onSelect}
             status ={status}   
                 selectedOption ={selectedOption}
-                disabled = {false}
+                disabled = {pending}
                 type ={challenge.type}
 
                 />
@@ -146,7 +187,7 @@ type Props ={
          </div>
         </div>  
         <Footer 
-        disabled ={!selectedOption} 
+        disabled ={pending || !selectedOption} 
         status={ status}
         onCheck={onContinue}
         ></Footer>
