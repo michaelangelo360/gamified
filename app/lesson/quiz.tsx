@@ -1,7 +1,10 @@
 "use client"
+import Image from "next/image";
+
+import Confetti from "react-confetti";
 import { Challenge } from "./challenge";
 import { challengeOptions , challenges} from "@/db/schema";
-import { useAudio } from "react-use";
+import { useAudio ,useWindowSize} from "react-use";
 import { useState, useTransition } from "react";
 import { toast } from "sonner";
 import { Header } from "./header";
@@ -9,6 +12,9 @@ import { QuestionBubble } from "./question-bubble";
  import { Footer } from "./footer";
 import { upsertChallengeProgress } from "@/actions/challenge_progress";
 import { reduceHearts } from "@/actions/user-progress";
+import { ResultCard } from "./results-card";
+import { useRouter } from "next/navigation";
+import { useHeartsModal } from "@/store/use-hearts-modal";
 type Props ={
 
 
@@ -31,6 +37,13 @@ type Props ={
     userSubscription
  } :Props)=>{
 
+
+   const {open: openHeartsModal} = useHeartsModal();
+const {width, height} = useWindowSize();   
+   const router = useRouter();
+
+
+   const [finishAudio] =useAudio({src:"/finish.mp3", autoPlay:true})
    const [
       correctAudio,
       _c,
@@ -48,6 +61,7 @@ type Props ={
 
    ]=useAudio({src:"/incorrect.wav"});
 
+   const [lessonId] =useState(initialLessonId);
    const [pending,startTransition ] = useTransition();
     const [hearts, setHearts]= useState(initialHearts);
     const [percentage, setPercentage] = useState(initialPercentage);
@@ -105,7 +119,7 @@ type Props ={
       upsertChallengeProgress(challenge.id)
       .then((response ) =>{
          if (response?.error==="hearts"){
-            console.error("Missing heart");
+            openHeartsModal();
             return;
          }
 
@@ -123,7 +137,7 @@ type Props ={
       reduceHearts(challenge.id)
       .then ((response)=>{
          if (response?.error ==="hearts"){
-            console.error("Missing hearts ");
+            openHeartsModal();
             return ;
          }
 
@@ -141,6 +155,60 @@ type Props ={
     }
 
     };
+
+   if (!challenge) {
+      return(
+         <>
+         {finishAudio}
+         <Confetti
+         width={width}
+         height={height}
+         recycle ={false}
+         numberOfPieces={500}
+         tweenDuration = {10000}
+         
+         />
+         <div  className="flex flex-col gap-y-4 lg:gap-y-8 max-w-lg mx-auto text-center items-center justify-center h-full">
+         <Image  
+         src="/finish.svg"
+         alt="Finish"
+         className="block lg:hidden"
+         height={50}
+         width={50} 
+         ></Image>
+            <h1>
+               Great Job! <br/> You&apos;ve completed the lesson.
+            </h1>
+            <ResultCard 
+            variant= "points"
+            value={ challenges.length*10}
+            
+            >
+
+            </ResultCard>
+            
+            <ResultCard 
+            variant= "hearts"
+            value={ hearts}
+            
+            >
+
+            </ResultCard>
+            </div> 
+            <Footer
+            lessonId ={lessonId}
+            status="completed"
+            onCheck={()=>{
+
+               router.push("/learn")
+            }}
+            >
+
+            </Footer>
+         </>
+      );
+
+   }
 
     const title = challenge.type ==="ASSIST"
     ?"Select the correct meaning"

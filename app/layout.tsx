@@ -6,7 +6,7 @@ import { Toaster } from "sonner";
 
 import "./globals.css";
 import { ExitModal } from "@/components/modal/exit-modal";
-
+import { HeartsModal} from "@/components/modal/hearts-modal";
 const font = Nunito({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
@@ -26,6 +26,7 @@ export default function RootLayout({
       <body className={font.className}>
         <Toaster/>
         <ExitModal></ExitModal>
+        <HeartsModal/>
         {children}
         </body>
     </html>
