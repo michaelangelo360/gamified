@@ -43,6 +43,7 @@ export const upsertChallengeProgress = async (challengeId : number ) => {
 
     const isPractice = !!existingChallengeProgress;
 
+    //TODO: not if user has a subscription 
     if (currentUserProgress.hearts ===0 && !isPractice){
 
         return{ error: "hearts"}
