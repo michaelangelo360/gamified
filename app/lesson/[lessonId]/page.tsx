@@ -10,7 +10,7 @@ type Props ={
 }
 
 
-const LessonPage = async({
+const LessonIdPage = async({
     params
 }:Props)=>{
     
@@ -43,4 +43,4 @@ const LessonPage = async({
     
 };
 
-export default LessonPage;
+export default LessonIdPage;

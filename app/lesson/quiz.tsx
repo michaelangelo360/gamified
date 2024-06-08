@@ -4,7 +4,7 @@ import Image from "next/image";
 import Confetti from "react-confetti";
 import { Challenge } from "./challenge";
 import { challengeOptions , challenges} from "@/db/schema";
-import { useAudio ,useWindowSize} from "react-use";
+import { useAudio ,useWindowSize , useMount} from "react-use";
 import { useState, useTransition } from "react";
 import { toast } from "sonner";
 import { Header } from "./header";
@@ -15,6 +15,7 @@ import { reduceHearts } from "@/actions/user-progress";
 import { ResultCard } from "./results-card";
 import { useRouter } from "next/navigation";
 import { useHeartsModal } from "@/store/use-hearts-modal";
+import { usePracticeModal } from "@/store/use-practice-modal";
 type Props ={
 
 
@@ -39,6 +40,12 @@ type Props ={
 
 
    const {open: openHeartsModal} = useHeartsModal();
+   const {open: openPracticeModal} = usePracticeModal();
+   useMount(()=>{
+      if (initialPercentage ===100){
+         openPracticeModal();
+      }
+   })
 const {width, height} = useWindowSize();   
    const router = useRouter();
 
